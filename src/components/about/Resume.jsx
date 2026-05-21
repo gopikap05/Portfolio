@@ -629,7 +629,7 @@ function Resume() {
                 <div className="resume-card-wrap">
                   <div
                     className="resume-3d-card"
-                    onClick={() => window.open("/resume/Gopika-resume.pdf", "_blank")}
+                    onClick={() => window.open(import.meta.env.BASE_URL + "resume/Gopika-resume.pdf", "_blank")}
                   >
                     <div className="resume-inner">
                       <div>

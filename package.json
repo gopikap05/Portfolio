@@ -2,7 +2,7 @@
   "name": "ui",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://gopikap05.github.io",
+  "homepage": "https://gopikap05.github.io/Portfolio/",
   "type": "module",
   "scripts": {
     "dev": "vite",

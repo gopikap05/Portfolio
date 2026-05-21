@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect } from "react";
 import ThemeToggle from "../common/ThemeToggle";
 import { useTheme } from "../../context/ThemeContext";
-const logo = "/icons/logo.png";
+const logo = import.meta.env.BASE_URL + "icons/logo.png";
 
 function Navbar() {
   const location = useLocation();
