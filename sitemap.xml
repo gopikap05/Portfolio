@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://gopikap05.github.io/</loc>
+    <loc>https://gopikap05.github.io/Portfolio/</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://gopikap05.github.io/about</loc>
+    <loc>https://gopikap05.github.io/Portfolio/about</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://gopikap05.github.io/projects</loc>
+    <loc>https://gopikap05.github.io/Portfolio/projects</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://gopikap05.github.io/contact</loc>
+    <loc>https://gopikap05.github.io/Portfolio/contact</loc>
     <priority>0.8</priority>
   </url>
 </urlset>
