@@ -19,7 +19,7 @@ export const freelanceProjects = [
       {
         name: "K Palanisamy",
         role: "CEO",
-        content: "Gopika delivered a modern, responsive platform that perfectly represents our brand. Her attention to detail and technical expertise were impressive throughout the project. The website has received excellent feedback from our clients and partners.",
+        content: "I would like to express my heartfelt appreciation for the amazing website you have developed. The design is clean, professional, and exactly what I was looking for. Your effort and commitment are clearly reflected in the final result.",
         rating: 5
       },
     ]
