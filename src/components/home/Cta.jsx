@@ -256,7 +256,7 @@ function CTASection() {
           <div className="cta-marquee-track">
             {[...Array(2)].map((_, repeatIndex) => (
               <React.Fragment key={repeatIndex}>
-                {["LET'S WORK", "·", "GET IN TOUCH", "·", "HIRE ME", "·", "COLLABORATE", "·"].map((word, i) => (
+                {["LET'S WORK", "·", "GET IN TOUCH", "·", "COLLABORATE", "·"].map((word, i) => (
                   <span key={`${repeatIndex}-${i}`} className={`cta-marquee-item ${i % 4 === 0 ? "filled" : ""}`}>
                     {word}
                   </span>

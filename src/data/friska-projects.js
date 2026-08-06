@@ -89,16 +89,48 @@ export const friskaProjects = [
     ceo: "Shaji Nair",
     shortDescription: "A specialized doctor portal for developmental screening and therapy intelligence, enabling pediatricians to assess and manage developmental conditions.",
     detailedDescription: "The NeuralClinic AI Doctor Portal provides pediatric clinicians with a dedicated workspace for multimodal developmental screening and therapy intelligence. Built to support evaluation of ASD, ADHD, OCD, speech and language delays, learning disabilities and sensory processing disorders, the portal transforms fragmented clinical inputs into structured diagnostic workflows. Operating on DSM-5, ICD-10 and CDC standards with clinical validation under psychiatric supervision, this portal helps pediatric clinics identify developmental concerns earlier and guide families toward appropriate care pathways. The platform is built with modern web technologies to ensure smooth clinical documentation and patient management. **This portal was built with the help of a team.**",
-    tech: ["API", "Figma", "Git", "GitHub", "Material-UI", "Node.js", "React", "TypeScript", "VS Code"],
-    liveUrl: "https://dev-doctor.neuralclinic.ai/",
+    tech: ["API", "Figma", "Git", "GitHub", "Material-UI", "Next.js", "Node.js", "React", "TypeScript", "VS Code"],
+    liveUrl: "https://doctor.neuralclinic.ai/",
     status: "active",
     origin: "Friska ai",
     relatedProjects: ["neuralclinic-ai"],
   },
 
-  // Endocpm
+  // NeuralClinic Ai | Patient Portal
   {
     count: 7,
+    id: "neuralclinic-ai-patient",
+    title: "NeuralClinic Ai | Patient Portal",
+    company: "HFWL",
+    ceo: "Shaji Nair",
+    shortDescription: "A patient-facing portal for developmental screening and therapy management, empowering families to track progress and access care resources.",
+    detailedDescription: "The NeuralClinic AI Patient Portal gives families and patients direct access to developmental screening tools, therapy progress tracking, and care resources. Designed to complement the clinician-facing doctor portal, this platform enables patients to complete assessments, view therapy plans, communicate with their care team, and monitor developmental milestones over time. Built with React, TypeScript and Material-UI, the portal provides an intuitive and secure experience for families navigating developmental care pathways. Operating on DSM-5, ICD-10 and CDC standards with clinical validation under psychiatric supervision, this portal bridges the gap between clinical care and patient engagement. **This portal was built with the help of a team.**",
+    tech: ["API", "Figma", "Git", "GitHub", "Material-UI", "Next.js", "Node.js", "React", "TypeScript", "VS Code"],
+    liveUrl: "https://patient.neuralclinic.ai/",
+    status: "active",
+    origin: "Friska ai",
+    relatedProjects: ["neuralclinic-ai", "neuralclinic-ai-doctor"],
+  },
+
+  // NeuralClinic Ai | Admin Portal
+  {
+    count: 8,
+    id: "neuralclinic-ai-admin",
+    title: "NeuralClinic Ai | Admin Portal",
+    company: "HFWL",
+    ceo: "Shaji Nair",
+    shortDescription: "An administrative portal for managing the NeuralClinic AI platform, providing oversight and control over clinical operations and user management.",
+    detailedDescription: "The NeuralClinic AI Admin Portal serves as the command center for platform administrators, offering comprehensive tools for managing users, clinics, workflows, and system configurations. Built for operational efficiency, this portal enables admin staff to oversee clinician performance, monitor patient activity, manage appointments, and ensure compliance across the entire NeuralClinic AI ecosystem. With granular access controls and real-time analytics, the admin portal provides the visibility and control needed to run a pediatric developmental screening practice at scale. Built with React, TypeScript and Material-UI, the portal delivers a robust administrative experience. **This portal was built with the help of a team.**",
+    tech: ["API", "Figma", "Git", "GitHub", "Material-UI", "Node.js", "React", "TypeScript", "VS Code"],
+    liveUrl: "https://admin.neuralclinic.ai/",
+    status: "active",
+    origin: "Friska ai",
+    relatedProjects: ["neuralclinic-ai", "neuralclinic-ai-doctor", "neuralclinic-ai-patient"],
+  },
+
+  // Endocpm
+  {
+    count: 9,
     id: "endocpm",
     title: "Endocpm",
     company: "HFWL",
@@ -114,7 +146,7 @@ export const friskaProjects = [
 
   // Friska Ai
   {
-    count: 8,
+    count: 10,
     id: "friska-ai",
     title: "Friska Ai",
     company: "HFWL",
@@ -130,7 +162,7 @@ export const friskaProjects = [
 
   // Nouriq Ai
   {
-    count: 9,
+    count: 11,
     id: "nouriq-ai",
     title: "Nouriq Ai",
     company: "HFWL",
@@ -146,7 +178,7 @@ export const friskaProjects = [
 
   // Kliniq Ai
   {
-    count: 10,
+    count: 12,
     id: "kliniq-ai",
     title: "Kliniq Ai",
     company: "HFWL",
@@ -162,7 +194,7 @@ export const friskaProjects = [
 
   // HFWL
   {
-    count: 11,
+    count: 13,
     id: "hfwl",
     title: "HFWL",
     company: "HFWL",
@@ -178,7 +210,7 @@ export const friskaProjects = [
 
   // Kalari Ai
   {
-    count: 12,
+    count: 14,
     id: "kalari-ai",
     title: "Kalari Ai",
     company: "HFWL",
@@ -194,7 +226,7 @@ export const friskaProjects = [
 
   // NeuralClinic Ai
   {
-    count: 13,
+    count: 15,
     id: "neuralclinic-ai",
     title: "NeuralClinic Ai",
     company: "HFWL",
@@ -205,12 +237,12 @@ export const friskaProjects = [
     liveUrl: "https://neuralclinic.ai/",
     status: "active",
     origin: "Friska ai",
-    relatedProjects: ["neuralclinic-ai-doctor"],
+    relatedProjects: ["neuralclinic-ai-doctor", "neuralclinic-ai-patient", "neuralclinic-ai-admin"],
   },
 
   // Claritalk Ai
   {
-    count: 14,
+    count: 16,
     id: "claritalk-ai",
     title: "Claritalk Ai",
     company: "HFWL",
