@@ -34,7 +34,7 @@ import googleSearchConsole from "../../assets/tech icons/google search console.w
 
 const ORIGIN_LABELS = {
   "emilda solutions": "Emilda Solutions",
-  "Friska ai": "Friska AI",
+  "HFWL Technologies": "HFWL Technologies",
   freelance: "Freelance",
 };
 
@@ -102,7 +102,7 @@ function ProjectDetails() {
     project.relatedProjects?.includes(p.id)
   );
 
-  // Get related projects from the same origin only (freelance/emilda/friska)
+  // Get related projects from the same origin only (freelance/emilda/HFWL Technologies)
   const recentProjects = [...projects]
     .filter((p) =>
       p.origin === project.origin && // Same origin

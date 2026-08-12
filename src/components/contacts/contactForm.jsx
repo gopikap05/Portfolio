@@ -227,7 +227,7 @@ function ContactForm() {
               mb: { xs: 4, md: 6 },
               color: "var(--theme-text-primary)",
             }}>
-              Let's Start a Conversation
+              Let's start a conversation
             </Typography>
           </motion.div>
 

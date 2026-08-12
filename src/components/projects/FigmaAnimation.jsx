@@ -175,13 +175,13 @@ function FigmaAnimation() {
             />
 
             <text x="50%" y="130" textAnchor="middle" fill="var(--theme-text-primary)" fontSize="52" fontWeight="600">
-              Build,
+              build,
             </text>
             <text x="50%" y="190" textAnchor="middle" fill="var(--theme-text-primary)" fontSize="52" fontWeight="600">
-              Create,
+              create,
             </text>
             <text x="50%" y="250" textAnchor="middle" fill="var(--theme-text-primary)" fontSize="52" fontWeight="600">
-              Launch.
+              launch.
             </text>
 
             <path

@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "../components/common/breadcrumbs";
 import AllProjects from "../components/projects/AllProjects";
 import ProjectHero from "../components/projects/project";
+import Testimonials from "../components/projects/testimonials";
 
 function Projects() {
   return (
@@ -39,6 +40,7 @@ function Projects() {
       />
       <ProjectHero />
       <AllProjects />
+      <Testimonials />
     </Box>
   );
 }

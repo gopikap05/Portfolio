@@ -4,7 +4,7 @@ import HeroSection from "../components/home/Hero";
 import AboutSection from "../components/home/About";
 import RecentProjects from "../components/home/Recentprojects";
 import CTASection from "../components/home/Cta";
-import Testimonials from "../components/home/testimonials";
+import Experience from "../components/home/Experience";
 
 function Home() {
   return (
@@ -43,7 +43,7 @@ function Home() {
       <HeroSection />
       <AboutSection />
       <RecentProjects />
-      <Testimonials />
+      <Experience />
       <CTASection />
     </div>
   );

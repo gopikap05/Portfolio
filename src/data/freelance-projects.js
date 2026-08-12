@@ -1,8 +1,26 @@
 export const freelanceProjects = [
 
-  // SPEI Website
+  // Two Feathers Home Care
   {
     count: 1,
+    id: "two-feathers-home-care",
+    title: "Two Feathers Home Care",
+    company: "Two Feathers Home Care",
+    location: "Hosur, Tamil Nadu",
+    ceo: "Dr. Hrishikesh",
+    shortDescription: "A compassionate home care services platform providing healthcare and daily living support for elderly individuals.\n**Freelance project sourced through Emilda Solutions.**",
+    detailedDescription: "**Freelance project sourced through Emilda Solutions.** Two Feathers Home Care offers in-home healthcare and personal care services tailored specifically for older adults who need support with medical needs and daily living activities. The website communicates the organization's care philosophy, service offerings and caregiver standards to families making important decisions about their loved ones' wellbeing. Built on WordPress, the site prioritizes trust and warmth in its presentation, reflecting the sensitivity required in the elder care space.",
+    tech: ["Figma", "Google Analytics", "Google Search Console", "Hostinger", "SEO", "WordPress"],
+    liveUrl: "https://twofeathershomecare.com/",
+    status: "active",
+    origin: "freelance",
+    relatedProjects: [],
+    testimonials: [],
+  },
+
+  // SPEI Website
+  {
+    count: 2,
     id: "spei-website",
     title: "SPEI Website",
     company: "SP Engineer India",
@@ -27,7 +45,7 @@ export const freelanceProjects = [
 
   // Sansera - SCM Task Manager
   {
-    count: 2,
+    count: 3,
     id: "sansera-scm-task-manager",
     title: "SCM Task Manager",
     company: "Sansera Engineering Ltd",
@@ -48,6 +66,6 @@ export const freelanceProjects = [
         rating: 5
       },
     ]
-  }
+  },
 
 ];

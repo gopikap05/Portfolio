@@ -26,12 +26,12 @@ function Contact() {
         border: 0,
         whiteSpace: "nowrap"
       }}>
-        Contact Gopika P - Get in Touch
+        Contact Gopika P - get in touch
       </h1>
 
       <Helmet>
         <title>Contact | Gopika - Portfolio</title>
-        <meta name="description" content="Get in touch with Gopika P — feel free to reach out for collaborations, inquiries, or just to say hello. Connect via contact form or social media." />
+        <meta name="description" content="Get in touch with Gopika P — feel free to reach out for full-time opportunities, inquiries, or just to say hello. Connect via contact form or social media." />
       </Helmet>
 
       <Breadcrumbs

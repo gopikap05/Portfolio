@@ -8,7 +8,7 @@ import projects from "../../data/projects";
 const ORIGIN_FILTERS = [
   { key: "all", label: "All" },
   { key: "emilda solutions", label: "Emilda Solutions" },
-  { key: "Friska ai", label: "Friska AI" },
+  { key: "HFWL Technologies", label: "HFWL Technologies" },
   { key: "freelance", label: "Freelance" },
 ];
 
@@ -46,9 +46,9 @@ function AllProjects() {
     })
     .sort((a, b) => {
       const ORIGIN_ORDER = {
-        "freelance": 0,
-        "friska ai": 1,
-        "emilda solutions": 2,
+        "HFWL Technologies": 0,
+        "emilda solutions": 1,
+        "freelance": 2,
       };
       const originA = ORIGIN_ORDER[a.origin?.toLowerCase().trim()] ?? 99;
       const originB = ORIGIN_ORDER[b.origin?.toLowerCase().trim()] ?? 99;
@@ -74,7 +74,7 @@ function AllProjects() {
   const formatOriginLabel = (origin) => {
     if (!origin) return "";
     if (origin.toLowerCase() === "emilda solutions") return "Emilda Solutions";
-    if (origin.toLowerCase() === "friska ai") return "Friska AI";
+    if (origin.toLowerCase() === "hfwl technologies") return "HFWL Technologies";
     if (origin.toLowerCase() === "freelance") return "Freelance";
     return origin;
   };
@@ -156,7 +156,7 @@ function AllProjects() {
           background: linear-gradient(135deg, #cf6767ff, #5f2714ff);
           transform: translateY(100%);
           transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-          padding: 10px 20px;
+          padding: 10px 30px;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -463,7 +463,7 @@ function AllProjects() {
                 letterSpacing: "3px",
                 color: "var(--theme-text-primary)",
               }}>
-                Selected Work
+                Project Showcase
               </Typography>
             </motion.div>
 
@@ -671,7 +671,7 @@ function AllProjects() {
                           </Typography>
 
                           {project.tech?.length > 0 && (
-                            <Box sx={{ display: "flex", gap: "6px", flexWrap: "wrap", mt: "auto" }}>
+                            <Box sx={{ display: "flex", gap: "6px", flexWrap: "wrap", mt: "auto", mb: "20px" }}>
                               {project.tech.slice(0, 3).map((tech) => (
                                 <span key={tech} className="tech-chip">{tech}</span>
                               ))}

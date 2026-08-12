@@ -328,7 +328,7 @@ function CTASection() {
                 mb: { xs: 2, md: 3 },
                 color: "var(--theme-text-primary)",
               }}>
-                Let's Build Something{" "}
+                Let's build something{" "}
                 <Box component="span" sx={{
                   background: "linear-gradient(135deg, #ffdb3b, #fe53bb, #8f51ea)",
                   backgroundClip: "text",
@@ -337,9 +337,9 @@ function CTASection() {
                   backgroundSize: "200%",
                   animation: "gradient_301 4s ease infinite",
                 }}>
-                  Great
+                  great
                 </Box>{" "}
-                Together.
+                together.
               </Typography>
             </motion.div>
 
@@ -351,7 +351,7 @@ function CTASection() {
               transition={{ duration: 0.8, delay: 0.35 }}
             >
               <Typography className="cta-subtitle">
-                Open to freelance projects, collaborations, and full-time opportunities.
+                Open to full-time opportunities, product development, and select freelance projects.
               </Typography>
             </motion.div>
 

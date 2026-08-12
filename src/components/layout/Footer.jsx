@@ -245,8 +245,8 @@ function Footer() {
                 color: "var(--theme-text-primary)",
               }}
             >
-              Let's<br />Work<br />
-              <span style={{ color: "var(--theme-text-secondary)", opacity: 0.6 }}>Together.</span>
+              Let's<br />work<br />
+              <span style={{ color: "var(--theme-text-secondary)", opacity: 0.6 }}>together.</span>
             </motion.h2>
 
             {/* Right: description + contacts */}
@@ -267,8 +267,7 @@ function Footer() {
                 lineHeight: 1.85,
                 margin: "0 0 clamp(20px, 3vw, 32px)",
               }}>
-                Open to frontend and product engineering opportunities.
-                Building something ambitious? Let's create something impactful together.
+                Open to full-time roles and product engineering opportunities. Building something ambitious? Let's create something impactful together.
               </p>
 
               {/* Contacts stacked */}

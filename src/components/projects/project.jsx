@@ -166,7 +166,7 @@ function ProjectHero() {
                 background: "#ff3b3b",
                 display: "inline-block"
               }} />
-              Selected Work
+              Project Showcase
             </div>
           </motion.div>
 

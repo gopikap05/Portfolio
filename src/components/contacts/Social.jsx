@@ -156,7 +156,7 @@ function Social() {
               mb: { xs: 5, md: 7 },
               color: "var(--theme-text-primary)",
             }}>
-              Let's Stay Connected
+              Let's stay connected
             </Typography>
           </motion.div>
 

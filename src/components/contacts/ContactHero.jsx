@@ -97,7 +97,7 @@ function ContactHero() {
               textTransform: "uppercase",
               color: "var(--theme-text-secondary)",
             }}>
-              Get In Touch
+              Get in touch
             </span>
           </motion.div>
 
@@ -140,7 +140,7 @@ function ContactHero() {
               textAlign: "center",
               margin: 0,
             }}>
-              Let's Work Together
+              Let's work together
             </p>
           </motion.div>
         </Box>
