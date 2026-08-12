@@ -46,7 +46,7 @@ function AllProjects() {
     })
     .sort((a, b) => {
       const ORIGIN_ORDER = {
-        "HFWL Technologies": 0,
+        "hfwl technologies": 0,
         "freelance": 1,
         "emilda solutions": 2,
       };

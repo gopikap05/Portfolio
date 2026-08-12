@@ -241,7 +241,7 @@ function ProjectCard({ project, index, to }) {
 function RecentProjects() {
   const navigate = useNavigate();
 
-  const originOrder = ["HFWL Technologies", "emilda solutions", "freelance"];
+  const originOrder = ["HFWL Technologies", "freelance", "emilda solutions"];
 
   const recentProjects = originOrder.map((origin) => {
     return projects

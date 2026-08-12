@@ -5,7 +5,7 @@ import { freelanceProjects } from "./freelance-projects";
 
 
 // Combine all projects
-const projects = [...emildaProjects, ...hfwlTechnologiesProjects, ...freelanceProjects];
+const projects = [...hfwlTechnologiesProjects, ...freelanceProjects, ...emildaProjects];
 
 // Log to verify data
 // console.log("Total projects loaded:", projects.length);
