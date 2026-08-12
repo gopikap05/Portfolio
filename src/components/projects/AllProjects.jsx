@@ -7,9 +7,9 @@ import projects from "../../data/projects";
 
 const ORIGIN_FILTERS = [
   { key: "all", label: "All" },
-  { key: "emilda solutions", label: "Emilda Solutions" },
   { key: "HFWL Technologies", label: "HFWL Technologies" },
   { key: "freelance", label: "Freelance" },
+  { key: "emilda solutions", label: "Emilda Solutions" },
 ];
 
 const STATUS_FILTERS = [
@@ -47,8 +47,8 @@ function AllProjects() {
     .sort((a, b) => {
       const ORIGIN_ORDER = {
         "HFWL Technologies": 0,
-        "emilda solutions": 1,
-        "freelance": 2,
+        "freelance": 1,
+        "emilda solutions": 2,
       };
       const originA = ORIGIN_ORDER[a.origin?.toLowerCase().trim()] ?? 99;
       const originB = ORIGIN_ORDER[b.origin?.toLowerCase().trim()] ?? 99;
