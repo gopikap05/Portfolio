@@ -1,6 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 function Footer() {
   const year = new Date().getFullYear();
@@ -35,6 +36,44 @@ function Footer() {
         }
         .footer-link:hover::after { 
           width: 100%; 
+        }
+
+        /* ── Get in touch link ── */
+        .footer-cta-link {
+          font-family: 'DM Sans', sans-serif;
+          font-size: clamp(12px, 1vw, 14px);
+          font-weight: 500;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: var(--theme-text-primary);
+          text-decoration: none;
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding-bottom: 2px;
+          transition: color 0.3s ease;
+        }
+        .footer-cta-link::after {
+          content: '';
+          position: absolute;
+          bottom: 0; left: 0;
+          width: 100%;
+          height: 1px;
+          background: var(--theme-text-primary);
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .footer-cta-link:hover::after {
+          transform: scaleX(1);
+        }
+        .footer-cta-link .cta-arrow {
+          display: inline-block;
+          transition: transform 0.4s ease;
+        }
+        .footer-cta-link:hover .cta-arrow {
+          transform: translateX(4px);
         }
 
         /* ── Marquee ── */
@@ -285,6 +324,18 @@ function Footer() {
                   <a href="mailto:gopikap026@gmail.com" className="footer-link">
                     gopikap026@gmail.com
                   </a>
+                </div>
+
+                {/* Get in touch → contact page */}
+                <div style={{
+                  marginTop: "clamp(12px, 2vw, 20px)",
+                  paddingTop: "clamp(12px, 2vw, 16px)",
+                  borderTop: "1px solid var(--theme-border)",
+                }}>
+                  <Link to="/contact" className="footer-cta-link">
+                    Let's Talk
+                    <span className="cta-arrow">→</span>
+                  </Link>
                 </div>
               </div>
             </motion.div>

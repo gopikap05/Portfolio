@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
+  /* Navbar height — used by fixed Breadcrumbs + page top spacing */
+  --navbar-height: 70px;
+
   /* Dark Theme (Default) - Platinum Mist */
   --theme-primary: #7B7F85;
   --theme-primary-light: #C1C4C8;
@@ -42,6 +45,10 @@
   /* Transitions */
   --theme-transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
+
+/* Responsive navbar height — matches the Navbar's xs/sm/md heights */
+@media (max-width: 600px) { :root { --navbar-height: 56px; } }
+@media (min-width: 601px) and (max-width: 899px) { :root { --navbar-height: 62px; } }
 
 /* Light Theme - Royal Amethyst */
 [data-theme="light"] {

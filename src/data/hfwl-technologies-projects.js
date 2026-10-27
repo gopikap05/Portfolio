@@ -1,14 +1,14 @@
 export const hfwlTechnologiesProjects = [
 
-  // HFWL Technologies | Billing
+  // FriskaAi | Billing
   {
     count: 1,
     id: "hfwl-technologies-billing",
-    title: "HFWL Technologies | Billing",
+    title: "FriskaAi | Billing",
     company: "HFWL",
     ceo: "Shaji Nair",
-    shortDescription: "A specialized medical billing portal within the HFWL Technologies ecosystem, designed to streamline revenue cycle management for healthcare providers.",
-    detailedDescription: "The HFWL Technologies Billing portal handles the financial backbone of healthcare operations, covering automated coding, claim submission and revenue cycle management in one unified interface. It sits within the broader HFWL Technologies ecosystem and is built for medical billing teams who need accuracy, speed and compliance in their daily workflows. The portal is developed with React, TypeScript and Material-UI, giving it a structured and responsive interface suited for high volume billing environments. **This portal was built with the help of a team.**",
+    shortDescription: "A specialized medical billing portal within the FriskaAi ecosystem, designed to streamline revenue cycle management for healthcare providers.",
+    detailedDescription: "The FriskaAi Billing portal handles the financial backbone of healthcare operations, covering automated coding, claim submission and revenue cycle management in one unified interface. It sits within the broader FriskaAi ecosystem and is built for medical billing teams who need accuracy, speed and compliance in their daily workflows. The portal is developed with React, TypeScript and Material-UI, giving it a structured and responsive interface suited for high volume billing environments. **This portal was built with the help of a team.**",
     tech: ["API", "Figma", "Git", "GitHub", "Material-UI", "Node.js", "React", "TypeScript", "VS Code"],
     liveUrl: "https://rcm.friska.ai/",
     status: "active",
@@ -16,15 +16,15 @@ export const hfwlTechnologiesProjects = [
     relatedProjects: ["hfwl-technologies"],
   },
 
-  // HFWL Technologies CCM | Lifestyle Experts
+  // FriskaAi CCM | Lifestyle Experts
   {
     count: 2,
     id: "hfwl-technologies-ccm",
-    title: "HFWL Technologies CCM | Lifestyle Experts",
+    title: "FriskaAi CCM | Lifestyle Experts",
     company: "HFWL",
     ceo: "Shaji Nair",
     shortDescription: "A chronic care management platform connecting patients with lifestyle experts for ongoing health support and care coordination.",
-    detailedDescription: "This platform brings together patients managing chronic conditions and the lifestyle experts who support them, creating a structured space for care plans, progress tracking and ongoing consultations. It operates as a dedicated module within the HFWL Technologies ecosystem, designed to make long term chronic care more consistent and measurable. React, TypeScript and Material-UI power the interface, which is built to handle the nuanced workflows of care coordination between patients and their extended health teams. **This portal was built with the help of a team.**",
+    detailedDescription: "This platform brings together patients managing chronic conditions and the lifestyle experts who support them, creating a structured space for care plans, progress tracking and ongoing consultations. It operates as a dedicated module within the FriskaAi ecosystem, designed to make long term chronic care more consistent and measurable. React, TypeScript and Material-UI power the interface, which is built to handle the nuanced workflows of care coordination between patients and their extended health teams. **This portal was built with the help of a team.**",
     tech: ["API", "Figma", "Git", "GitHub", "Material-UI", "Node.js", "React", "TypeScript", "VS Code"],
     liveUrl: "https://experts.friska.ai/",
     status: "active",
@@ -32,15 +32,15 @@ export const hfwlTechnologiesProjects = [
     relatedProjects: ["hfwl-technologies"],
   },
 
-  // HFWL Technologies | Lifestyle Experts
+  // FriskaAi | Lifestyle Experts
   {
     count: 3,
     id: "hfwl-technologies-lifestyle",
-    title: "HFWL Technologies | Lifestyle Experts",
+    title: "FriskaAi | Lifestyle Experts",
     company: "HFWL",
     ceo: "Shaji Nair",
     shortDescription: "A lifestyle management platform offering personalized expert guidance and wellness coaching for healthier living.",
-    detailedDescription: "The Lifestyle Experts platform within HFWL Technologies provides users with a guided path toward better health through personalized assessments, goal setting and one-on-one coaching. It is designed for individuals seeking structured lifestyle improvements with professional support, rather than generic self help content. The platform integrates smoothly into the HFWL Technologies ecosystem and is built with React, TypeScript and Material-UI to deliver a clean, goal oriented user experience. **This portal was built with the help of a team.**",
+    detailedDescription: "The Lifestyle Experts platform within FriskaAi provides users with a guided path toward better health through personalized assessments, goal setting and one-on-one coaching. It is designed for individuals seeking structured lifestyle improvements with professional support, rather than generic self help content. The platform integrates smoothly into the FriskaAi ecosystem and is built with React, TypeScript and Material-UI to deliver a clean, goal oriented user experience. **This portal was built with the help of a team.**",
     tech: ["API", "Figma", "Git", "GitHub", "Material-UI", "Node.js", "React", "TypeScript", "VS Code"],
     liveUrl: "https://lifestyleexperts.friska.ai/",
     status: "active",
@@ -48,15 +48,15 @@ export const hfwlTechnologiesProjects = [
     relatedProjects: ["hfwl-technologies"],
   },
 
-  // HFWL Technologies | Physician Portal
+  // FriskaAi | Physician Portal
   {
     count: 4,
     id: "hfwl-technologies-physician",
-    title: "HFWL Technologies | Physician Portal",
+    title: "FriskaAi | Physician Portal",
     company: "HFWL",
     ceo: "Shaji Nair",
     shortDescription: "A dedicated portal giving physicians the tools they need for patient management, scheduling and clinical communication.",
-    detailedDescription: "Designed specifically for healthcare professionals, the HFWL Technologies Physician Portal centralizes patient records, appointment scheduling and clinical communication into a single, efficient workspace. It reduces the administrative overhead that physicians face daily, allowing more focus on patient care. The portal is built with React, TypeScript and Material-UI and integrates deeply with the HFWL Technologies ecosystem to ensure data flows seamlessly across the platform's various modules. **This portal was built with the help of a team.**",
+    detailedDescription: "Designed specifically for healthcare professionals, the FriskaAi Physician Portal centralizes patient records, appointment scheduling and clinical communication into a single, efficient workspace. It reduces the administrative overhead that physicians face daily, allowing more focus on patient care. The portal is built with React, TypeScript and Material-UI and integrates deeply with the FriskaAi ecosystem to ensure data flows seamlessly across the platform's various modules. **This portal was built with the help of a team.**",
     tech: ["API", "Figma", "Git", "GitHub", "Material-UI", "Node.js", "React", "TypeScript", "VS Code"],
     liveUrl: "https://practice.friska.ai/",
     status: "active",
@@ -64,15 +64,15 @@ export const hfwlTechnologiesProjects = [
     relatedProjects: ["hfwl-technologies"],
   },
 
-  // HFWL Technologies | Physician Portal (CCM)
+  // FriskaAi | Physician Portal (CCM)
   {
     count: 5,
     id: "hfwl-technologies-physician-ccm",
-    title: "HFWL Technologies | Physician Portal",
+    title: "FriskaAi | Physician Portal",
     company: "HFWL",
     ceo: "Shaji Nair",
     shortDescription: "An integrated physician portal focused on chronic care management, supporting treatment tracking and care team coordination.",
-    detailedDescription: "This EHR facing physician portal is tailored for chronic disease management, giving doctors visibility into care plans, treatment adherence and patient progress over time. It enables effective coordination between care teams and provides the clinical context physicians need to make informed decisions at each point of care. Like the rest of the HFWL Technologies suite, it is built with React, TypeScript and Material-UI, and connects directly with the platform's broader chronic care management infrastructure. **This portal was built with the help of a team.**",
+    detailedDescription: "This EHR facing physician portal is tailored for chronic disease management, giving doctors visibility into care plans, treatment adherence and patient progress over time. It enables effective coordination between care teams and provides the clinical context physicians need to make informed decisions at each point of care. Like the rest of the FriskaAi suite, it is built with React, TypeScript and Material-UI, and connects directly with the platform's broader chronic care management infrastructure. **This portal was built with the help of a team.**",
     tech: ["API", "Figma", "Git", "GitHub", "Material-UI", "Node.js", "React", "TypeScript", "VS Code"],
     liveUrl: "https://ehr.friska.ai/",
     status: "active",

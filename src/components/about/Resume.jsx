@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { useState, useRef, useCallback } from "react";
 import resumePreview from "../../assets/resume/resume-preview.jpg";
+import resumePdf from "../../assets/resume/resume.pdf";
 
 function Resume() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -629,11 +630,11 @@ function Resume() {
                 <div className="resume-card-wrap">
                   <div
                     className="resume-3d-card"
-                    onClick={() => window.open(import.meta.env.BASE_URL + "resume/Gopika-resume.pdf", "_blank")}
+                    onClick={() => window.open(resumePdf, "_blank")}
                   >
                     <div className="resume-inner">
                       <div>
-                        <div className="resume-role">Jr. Frontend</div>
+                        <div className="resume-role">Frontend</div>
                         <p className="resume-sub">Developer</p>
                       </div>
                       <button className="resume-download">

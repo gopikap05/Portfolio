@@ -1,7 +1,7 @@
 import "./index.css";
 
 import { Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Lenis from "@studio-freight/lenis";
 
 import Navbar from "./components/layout/Navbar";
@@ -18,9 +18,14 @@ import ScrollToTop from "./components/utils/ScrollToTop";
 import ThemeSettings from "./pages/ThemeSettings";
 import BackToTop from "./components/common/BackToTop";
 
+import { HeaderVisibilityContext } from "./context/HeaderVisibilityContext";
+
 function App() {
   const [loading, setLoading] = useState(true);
+  const [headerVisible, setHeaderVisible] = useState(true);
+  const lastY = useRef(0);
 
+  // Lenis setup
   useEffect(() => {
     if (loading) return;
 
@@ -51,12 +56,48 @@ function App() {
     };
   }, [loading]);
 
+  // Header show/hide based on scroll direction
+  useEffect(() => {
+    if (loading) return;
+
+    let cleanup = () => {};
+
+    const handleScroll = (y) => {
+      const delta = y - lastY.current;
+
+      if (y > 80 && delta > 4) {
+        setHeaderVisible(false);        // scrolling down → hide
+      } else if (delta < -4 || y < 80) {
+        setHeaderVisible(true);          // scrolling up → show
+      }
+      lastY.current = y;
+    };
+
+    // Wait a tick for Lenis to be attached
+    const timer = setTimeout(() => {
+      if (window.lenis) {
+        const onLenisScroll = ({ scroll }) => handleScroll(scroll);
+        window.lenis.on("scroll", onLenisScroll);
+        cleanup = () => window.lenis?.off("scroll", onLenisScroll);
+      } else {
+        const onWinScroll = () => handleScroll(window.scrollY);
+        window.addEventListener("scroll", onWinScroll, { passive: true });
+        cleanup = () => window.removeEventListener("scroll", onWinScroll);
+      }
+    }, 0);
+
+    return () => {
+      clearTimeout(timer);
+      cleanup();
+    };
+  }, [loading]);
+
   if (loading) {
     return <AppLoader onFinish={() => setLoading(false)} />;
   }
 
   return (
-    <>
+    <HeaderVisibilityContext.Provider value={headerVisible}>
       <a href="#main-content" className="skip-to-content">
         Skip to main content
       </a>
@@ -66,7 +107,6 @@ function App() {
         <ScrollToTop />
         <BackToTop />
 
-        {/* Main landmark is now inside each page component */}
         <Routes>
           <Route path="/theme" element={<ThemeSettings />} />
           <Route path="/" element={<Home />} />
@@ -78,7 +118,7 @@ function App() {
 
         <Footer />
       </div>
-    </>
+    </HeaderVisibilityContext.Provider>
   );
 }
 

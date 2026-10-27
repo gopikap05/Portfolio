@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import ThemeToggle from "../common/ThemeToggle";
 import { useTheme } from "../../context/ThemeContext";
+import { useHeaderVisibility } from "../../context/HeaderVisibilityContext";
 const logo = import.meta.env.BASE_URL + "icons/logo.png";
 
 function Navbar() {
@@ -11,6 +12,7 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { isDark } = useTheme();
+  const headerVisible = useHeaderVisibility();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -142,8 +144,11 @@ function Navbar() {
       {/* ── NAVBAR ── */}
       <motion.div
         initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        animate={{
+          y: headerVisible ? 0 : -100,
+          opacity: headerVisible ? 1 : 0,
+        }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         style={{
           position: "fixed",
           top: 0, left: 0,
@@ -155,9 +160,7 @@ function Navbar() {
           sx={{
             width: "100%",
             height: { xs: "56px", sm: "62px", md: "70px" },
-            backgroundColor: scrolled
-              ? `var(--theme-bg-primary)`
-              : "var(--theme-bg-primary)",
+            backgroundColor: "var(--theme-bg-primary)",
             borderBottom: scrolled
               ? "1px solid var(--theme-border-hover)"
               : "1px solid var(--theme-border)",

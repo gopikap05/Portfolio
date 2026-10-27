@@ -10,7 +10,7 @@ const ACCENT_COLOR_RGB = "139, 92, 246";
 const RED_COLOR = "#ff3b3b";
 const RED_COLOR_RGB = "255, 59, 59";
 
-function ProjectCard({ project, index, to }) {
+function ProjectCard({ project, index, to, categoryLabel }) {
   const cardRef = useRef(null);
   const [hovered, setHovered] = useState(false);
 
@@ -29,18 +29,26 @@ function ProjectCard({ project, index, to }) {
   const handleMouseEnter = useCallback(() => setHovered(true), []);
   const handleMouseLeave = useCallback(() => setHovered(false), []);
 
-  const originLabel = project.origin
-    ? project.origin.charAt(0).toUpperCase() + project.origin.slice(1)
-    : "";
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 0 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7, delay: index * 0.12 }}
-      style={{ display: "flex", height: "100%", width: "100%" }}
+      style={{ display: "flex", flexDirection: "column", height: "100%", width: "100%" }}
     >
+      {/* Category label above the card */}
+      <div style={{
+        fontFamily: "'Bebas Neue', sans-serif",
+        fontSize: "14px",
+        letterSpacing: "3px",
+        textTransform: "uppercase",
+        color: "var(--theme-text-secondary)",
+        marginBottom: "10px",
+      }}>
+        {categoryLabel}
+      </div>
+
       <Link
         to={to}
         ref={cardRef}
@@ -56,7 +64,7 @@ function ProjectCard({ project, index, to }) {
           backgroundColor: "var(--theme-bg-card)",
           cursor: "none",
           boxSizing: "border-box",
-          height: "100%",
+          flex: 1,
           display: "flex",
           flexDirection: "column",
         }}
@@ -137,17 +145,6 @@ function ProjectCard({ project, index, to }) {
 
           <div style={{
             fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: "28px",
-            letterSpacing: "4px",
-            color: `rgba(${RED_COLOR_RGB}, 0.8)`,
-            marginBottom: "16px",
-            lineHeight: 1,
-          }}>
-            {String(project.count).padStart(2, "0")}
-          </div>
-
-          <div style={{
-            fontFamily: "'Bebas Neue', sans-serif",
             fontSize: "clamp(1.3rem, 2.5vw, 1.75rem)",
             letterSpacing: "2px",
             color: "var(--theme-text-primary)",
@@ -157,37 +154,24 @@ function ProjectCard({ project, index, to }) {
             {project.title || project.company}
           </div>
 
-          <div style={{
-            fontFamily: "'DM Sans', sans-serif",
-            color: "var(--theme-text-secondary)", // CHANGED: was muted, now secondary for better contrast
-            fontSize: "12px",
-            letterSpacing: "2px",
-            textTransform: "uppercase",
-            marginBottom: "10px",
-          }}>
-            {project.company}
-            {project.ceo && ` · ${project.ceo}`}
-          </div>
-
+          {/* Company name + Status in same row, status pushed to right */}
           <div style={{
             display: "flex",
             alignItems: "center",
+            justifyContent: "space-between",
             gap: "12px",
             marginBottom: "20px",
             flexWrap: "wrap",
           }}>
             <span style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: "10px",
-              fontWeight: 600,
-              letterSpacing: "1.5px",
+              color: "var(--theme-text-secondary)",
+              fontSize: "12px",
+              letterSpacing: "2px",
               textTransform: "uppercase",
-              color: `rgba(${ACCENT_COLOR_RGB}, 0.8)`, // CHANGED: was 0.7, now 0.8 for better contrast
-              border: `1px solid rgba(${ACCENT_COLOR_RGB}, 0.3)`,
-              borderRadius: "999px",
-              padding: "4px 12px",
             }}>
-              {originLabel}
+              {project.company}
+              {project.ceo && ` · ${project.ceo}`}
             </span>
 
             <span style={{
@@ -197,8 +181,8 @@ function ProjectCard({ project, index, to }) {
               letterSpacing: "1.5px",
               textTransform: "uppercase",
               color: project.status === "active"
-                ? "rgba(34,197,94,1)" // CHANGED: was 0.85, now 1 for better contrast
-                : "rgba(156,163,175,0.9)", // CHANGED: was 0.7, now 0.9 for better contrast
+                ? "rgba(34,197,94,1)"
+                : "rgba(156,163,175,0.9)",
               border: `1px solid ${project.status === "active"
                 ? "rgba(34,197,94,0.3)"
                 : "rgba(156,163,175,0.25)"}`,
@@ -213,8 +197,8 @@ function ProjectCard({ project, index, to }) {
                 height: "6px",
                 borderRadius: "50%",
                 background: project.status === "active"
-                  ? "rgba(34,197,94,1)" // CHANGED: was 0.85, now 1
-                  : "rgba(156,163,175,0.9)", // CHANGED: was 0.6, now 0.9
+                  ? "rgba(34,197,94,1)"
+                  : "rgba(156,163,175,0.9)",
                 display: "inline-block",
                 flexShrink: 0,
               }} />
@@ -224,7 +208,7 @@ function ProjectCard({ project, index, to }) {
 
           <div style={{
             fontFamily: "'DM Sans', sans-serif",
-            color: "var(--theme-text-primary)", // CHANGED: was secondary, now primary for better contrast
+            color: "var(--theme-text-primary)",
             fontSize: "0.9rem",
             lineHeight: 1.7,
             flex: 1,
@@ -242,6 +226,12 @@ function RecentProjects() {
   const navigate = useNavigate();
 
   const originOrder = ["HFWL Technologies", "freelance", "emilda solutions"];
+
+  const categoryLabels = {
+    "HFWL Technologies": "HFWL",
+    "freelance": "Freelance",
+    "emilda solutions": "Emilda",
+  };
 
   const recentProjects = originOrder.map((origin) => {
     return projects
@@ -337,74 +327,71 @@ function RecentProjects() {
         .animated-button:hover .btn-arrow { transform: translateX(6px); }
         .animated-button:active { transform: scale(0.97); }
 
-        /* Mobile horizontal scroll */
-@media (max-width: 768px) {
-  .projects-grid {
-    overflow-x: auto;
-    overflow-y: visible;
-    scrollbar-width: thin;
-    -webkit-overflow-scrolling: touch;
-  }
+        @media (max-width: 768px) {
+          .projects-grid {
+            overflow-x: auto;
+            overflow-y: visible;
+            scrollbar-width: thin;
+            -webkit-overflow-scrolling: touch;
+          }
 
-  .projects-grid::-webkit-scrollbar { height: 3px; }
-  .projects-grid::-webkit-scrollbar-track {
-    background: var(--theme-border);
-    border-radius: 3px;
-  }
-  .projects-grid::-webkit-scrollbar-thumb {
-    background: var(--theme-primary);
-    border-radius: 3px;
-  }
+          .projects-grid::-webkit-scrollbar { height: 3px; }
+          .projects-grid::-webkit-scrollbar-track {
+            background: var(--theme-border);
+            border-radius: 3px;
+          }
+          .projects-grid::-webkit-scrollbar-thumb {
+            background: var(--theme-primary);
+            border-radius: 3px;
+          }
 
-  .projects-scroll-track {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 24px;
-    width: max-content;
-  }
+          .projects-scroll-track {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 24px;
+            width: max-content;
+          }
 
-  .projects-scroll-track > * {
-    width: 280px !important;
-    min-width: 280px !important;
-    flex-shrink: 0 !important;
-    height: 360px !important;
-  }
+          .projects-scroll-track > * {
+            width: 280px !important;
+            min-width: 280px !important;
+            flex-shrink: 0 !important;
+            height: 360px !important;
+          }
 
-  .mobile-scroll-hint {
-    display: flex !important;
-  }
-}
+          .mobile-scroll-hint {
+            display: flex !important;
+          }
+        }
 
-.project-card-content {
-  padding: 20px !important;
-}
-        
-        /* Desktop */
+        .project-card-content {
+          padding: 20px !important;
+        }
+
         @media (min-width: 769px) {
           .projects-grid {
             overflow: visible;
           }
-          
+
           .projects-scroll-track {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 28px;
             width: 100%;
           }
-          
+
           .mobile-scroll-hint {
             display: none !important;
           }
         }
 
-        /* CONTRAST FIX: Swipe hint text */
         .swipe-hint-text {
           font-family: 'DM Sans', sans-serif;
           font-size: 9px;
           letter-spacing: 2px;
           text-transform: uppercase;
-          color: var(--theme-text-secondary); /* CHANGED: was muted with opacity */
+          color: var(--theme-text-secondary);
         }
       `}</style>
 
@@ -472,12 +459,12 @@ function RecentProjects() {
                   project={project}
                   index={i}
                   to={`/projects/${project.origin.toLowerCase().replace(/\s+/g, '-')}/${project.id}`}
+                  categoryLabel={categoryLabels[project.origin] || project.origin}
                 />
               ))}
             </div>
           </div>
 
-          {/* Scroll hint - CONTRAST FIXED */}
           <div className="mobile-scroll-hint" style={{
             display: "none",
             justifyContent: "center",
@@ -501,7 +488,6 @@ function RecentProjects() {
             </motion.div>
           </div>
 
-          {/* CTA Button with top margin on desktop */}
           <Box sx={{
             display: "flex",
             justifyContent: "center",

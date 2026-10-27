@@ -431,7 +431,7 @@ function ThanksNote() {
                 <span className="tn-date">2026,</span>
                 <p>Thank you for exploring my portfolio. Every section, component, interaction and animation you see here was carefully crafted to reflect both structure and creativity.</p>
                 <p>I appreciate your time and interest in my work.</p>
-                <span className="tn-sign">— Gopika P</span>
+                <span className="tn-sign">— Gopika</span>
               </div>
             </motion.div>
 

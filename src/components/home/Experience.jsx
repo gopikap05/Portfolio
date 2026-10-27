@@ -1,55 +1,32 @@
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import PlaceOutlinedIcon from "@mui/icons-material/PlaceOutlined";
+import LaptopMacOutlinedIcon from "@mui/icons-material/LaptopMacOutlined";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-// Move these arrays into `../../data/experience.js` and import them if you want to
-// keep the same pattern that `projects.js` uses for Testimonials.jsx.
+// Same advice as before: move these into `../../data/experience.js` if you like.
+// `start` / `end` drive the proportional career strip (end: null = still working).
 const experienceData = [
   {
-    id: "exp-1",
-    role: "Frontend Developer",
-    company: "HFWL Technologies",
-    ceo: "Shaji Nair",
-    location: "Arlington, Virginia, United States",
-    workMode: "Work From Home",
-    duration: "Mar 2025 — Present",
-    description:
-      "HFWL Technologies is a health-tech startup building AI-powered products across nutrition, wellness, and clinical care — including HFWL Technologies, one of its flagship products.",
-    bullets: [
-      "Solely own and maintain 6 product websites (HFWL Technologies, NouriqAi, KliniqAi, HFWL, KalariAi, EndoCPM) built with WP Bricks",
-      "Handle end-to-end SEO meta tags, on-page optimisation, and site structure across all 6 products",
-      "Integrated Google Site Kit, Google Analytics, and Microsoft Clarity for traffic and behaviour tracking",
-      "Collaborate with the frontend team and tech lead on internal React portals — lifestyle dashboards and billing systems",
-    ],
-  },
-  {
-    id: "exp-2",
-    role: "Frontend Developer",
-    company: "Emilda Solutions Pvt Ltd · Freelance",
-    ceo: "Paul Arasu",
-    location: "Hosur, Tamil Nadu, India",
-    workMode: "Work From Home",
-    duration: "Jan 2025 — Mar 2025",
-    description:
-      "Continued freelance collaboration with Emilda Solutions after the full-time engagement, delivering client websites independently.",
-    bullets: [
-      "Built and delivered client websites independently, managing projects from brief to deployment",
-      "Developed the TwoFeathers Home Care website — a responsive, accessible site focused on clean navigation and service clarity",
-      "Optimised page performance and UI across deliverables, applying WordPress and Webflow best practices",
-    ],
-  },
-  {
     id: "exp-3",
+    label: "Emilda · Full-time",
     role: "Frontend Developer",
-    company: "Emilda Solutions Pvt Ltd · Full-time",
+    company: "Emilda Solutions Pvt Ltd",
+    type: "Full-time",
     ceo: "Paul Arasu",
     location: "India",
     workMode: "Work From Office",
+    start: "2024-05-01",
+    end: "2025-01-01",
     duration: "May 2024 — Jan 2025",
     description:
-      "Emilda Solutions is a web development agency delivering custom digital solutions for clients across healthcare, e-commerce, and enterprise sectors globally.",
+      "A web development agency delivering custom digital solutions for clients across healthcare, e-commerce, and enterprise sectors globally.",
+    tags: ["WordPress", "Webflow", "SEO", "Cross-browser"],
     bullets: [
       "Built and maintained client websites using WordPress and Webflow — UI development, API integrations, and third-party services",
       "Delivered 3 international projects: Vitalis Healthcare (B2B, US), Bricor (e-commerce, US), and PearlD3 (AI ERP, Saudi Arabia)",
@@ -57,405 +34,505 @@ const experienceData = [
       "Worked in an agile team environment, shipping production-ready websites on client timelines",
     ],
   },
+  {
+    id: "exp-2",
+    label: "Emilda · Freelance",
+    role: "Frontend Developer",
+    company: "Emilda Solutions Pvt Ltd",
+    type: "Freelance",
+    ceo: "Paul Arasu",
+    location: "Hosur, Tamil Nadu, India",
+    workMode: "Work From Home",
+    start: "2025-01-01",
+    end: "2025-03-01",
+    duration: "Jan 2025 — Mar 2025",
+    description:
+      "Continued freelance collaboration with Emilda Solutions after the full-time engagement, delivering client websites independently.",
+    tags: ["WordPress", "Webflow", "Performance"],
+    bullets: [
+      "Built and delivered client websites independently, managing projects from brief to deployment",
+      "Developed the TwoFeathers Home Care website — a responsive, accessible site focused on clean navigation and service clarity",
+      "Optimised page performance and UI across deliverables, applying WordPress and Webflow best practices",
+    ],
+  },
+  {
+    id: "exp-1",
+    label: "HFWL Technologies",
+    role: "Frontend Developer",
+    company: "HFWL Technologies",
+    type: "Full-time",
+    ceo: "Shaji Nair",
+    location: "Arlington, Virginia, United States",
+    workMode: "Work From Home",
+    start: "2025-03-01",
+    end: null,
+    duration: "Mar 2025 — Present",
+    description:
+      "A health-tech startup building AI-powered products across nutrition, wellness, and clinical care — including HFWL Technologies, one of its flagship products.",
+    tags: ["WP Bricks", "SEO", "Google Analytics", "Clarity", "React"],
+    bullets: [
+      "Solely own and maintain 6 product websites (HFWL Technologies, NouriqAi, KliniqAi, HFWL, KalariAi, EndoCPM) built with WP Bricks",
+      "Handle end-to-end SEO meta tags, on-page optimisation, and site structure across all 6 products",
+      "Integrated Google Site Kit, Google Analytics, and Microsoft Clarity for traffic and behaviour tracking",
+      "Collaborate with the frontend team and tech lead on internal React portals — lifestyle dashboards and billing systems",
+    ],
+  },
 ];
 
 const educationData = [
   {
     id: "edu-1",
+    label: "Karunya",
     school: "Karunya Institute of Technology and Sciences",
     degree: "Bachelor's degree, Electrical, Electronics and Communications Engineering",
+    start: "2019-06-01",
+    end: "2023-05-01",
     duration: "Jun 2019 — May 2023",
     grade: "Grade: 7.07",
   },
 ];
 
+const MONTH_MS = 1000 * 60 * 60 * 24 * 30.44;
+const monthsBetween = (start, end) =>
+  Math.max(1, Math.round(((end ? new Date(end) : new Date()) - new Date(start)) / MONTH_MS));
+const formatSpan = (m) => {
+  const y = Math.floor(m / 12);
+  const r = m % 12;
+  if (!y) return `${r} mo`;
+  return r ? `${y} yr ${r} mo` : `${y} yr`;
+};
+
 function Experience() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [dotTop, setDotTop] = useState(32);
-  const timelineRef = useRef(null);
-  const cardRefs = useRef([]);
+  const reduce = useReducedMotion();
+  const [tab, setTab] = useState("work");
+  const [active, setActive] = useState(experienceData.length - 1); // newest, on the right
+  const dirRef = useRef(1);
+  const panelRef = useRef(null);
+  const tabRefs = useRef([]);
 
-  // Track which card is active based on scroll position
+  const items = useMemo(
+    () => experienceData.map((e) => ({ ...e, months: monthsBetween(e.start, e.end) })),
+    []
+  );
+  const totalMonths = useMemo(() => items.reduce((s, e) => s + e.months, 0), [items]);
+  const current = items[active];
+
+  const select = (i) => {
+    if (i === active) return;
+    dirRef.current = i > active ? 1 : -1;
+    setActive(i);
+  };
+  const step = (d) => {
+    const n = Math.min(items.length - 1, Math.max(0, active + d));
+    select(n);
+    tabRefs.current[n]?.focus();
+  };
+
+  // Cursor spotlight on the panel — written straight to CSS vars, no re-renders
+  const onMove = (e) => {
+    const r = panelRef.current?.getBoundingClientRect();
+    if (!r) return;
+    panelRef.current.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    panelRef.current.style.setProperty("--my", `${e.clientY - r.top}px`);
+  };
+
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = cardRefs.current.findIndex((el) => el === entry.target);
-            if (idx !== -1) setActiveIndex(idx);
-          }
-        });
-      },
-      { rootMargin: "-40% 0px -50% 0px", threshold: 0 }
-    );
+    tabRefs.current = tabRefs.current.slice(0, items.length);
+  }, [items.length]);
 
-    cardRefs.current.forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+  if (!items.length) return null;
 
-  // Move the single tracking dot to align with the active card
-  useLayoutEffect(() => {
-    const activeCard = cardRefs.current[activeIndex];
-    if (activeCard && timelineRef.current) {
-      setDotTop(activeCard.offsetTop + 32);
-    }
-  }, [activeIndex]);
-
-  if (!experienceData || experienceData.length === 0) {
-    return null;
-  }
+  const slide = {
+    initial: (d) => ({ opacity: 0, x: reduce ? 0 : d * 48 }),
+    animate: { opacity: 1, x: 0 },
+    exit: (d) => ({ opacity: 0, x: reduce ? 0 : d * -48 }),
+  };
 
   return (
     <>
       <style>{`
-        .experience-section {
+        .xp-section {
           width: 100%;
           background-color: var(--theme-bg-primary);
           color: var(--theme-text-primary);
           position: relative;
           overflow: hidden;
+          font-family: 'DM Sans', sans-serif;
         }
-
-        .experience-tag {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
+        .xp-tag {
+          display: inline-flex; align-items: center; gap: 8px;
           padding: 6px 16px;
           border: 1px solid var(--theme-border-hover);
           border-radius: 999px;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 11px;
-          letter-spacing: 2px;
-          text-transform: uppercase;
+          font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
           color: var(--theme-text-secondary);
-          margin-bottom: clamp(40px, 6vw, 24px);
-        }
-
-        .experience-timeline {
-          position: relative;
-          padding-left: 32px;
-        }
-
-        .experience-timeline::before {
-          content: '';
-          position: absolute;
-          left: 5px;
-          top: 8px;
-          bottom: 8px;
-          width: 1px;
-          background: var(--theme-border);
-        }
-
-        .experience-dot-tracker {
-          position: absolute;
-          left: 0px;
-          width: 11px;
-          height: 11px;
-          border-radius: 50%;
-          background: #ff3b3b;
-          border: 2px solid var(--theme-bg-primary);
-          box-shadow: 0 0 0 3px rgba(255, 59, 59, 0.15);
-          z-index: 2;
-        }
-
-        .experience-card {
-          background: var(--theme-bg-card);
-          border: 1px solid var(--theme-border);
-          border-radius: 20px;
-          padding: 28px 30px;
           margin-bottom: 24px;
-          position: relative;
-          transition: border-color 0.4s ease, background 0.4s ease;
         }
 
-        .experience-card:last-child {
-          margin-bottom: 0;
+        /* ---------- top bar: tenure + tabs ---------- */
+        .xp-top {
+          display: flex; justify-content: space-between; align-items: flex-end;
+          flex-wrap: wrap; gap: 24px; margin-bottom: clamp(32px, 5vw, 56px);
+        }
+        .xp-total { font-size: 14px; color: var(--theme-text-secondary); max-width: 280px; line-height: 1.5; }
+        .xp-total strong { color: var(--theme-text-primary); font-size: 22px; font-weight: 700; display: block; }
+        .xp-switch {
+          display: inline-flex; padding: 4px; gap: 4px;
+          border: 1px solid var(--theme-border); border-radius: 999px;
+          background: var(--theme-bg-card);
+        }
+        .xp-switch button {
+          position: relative; border: 0; background: transparent; cursor: pointer;
+          padding: 8px 18px; border-radius: 999px;
+          font: 500 13px 'DM Sans', sans-serif; color: var(--theme-text-secondary);
+          display: inline-flex; align-items: center; gap: 8px;
+          transition: color .25s ease;
+        }
+        .xp-switch button[aria-selected="true"] { color: #fff; }
+        .xp-switch .xp-pill {
+          position: absolute; inset: 0; border-radius: 999px; background: #ff3b3b; z-index: 0;
+        }
+        .xp-switch span.xp-label { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; }
+
+        /* ---------- career strip ---------- */
+        .xp-strip { display: flex; gap: 6px; margin-bottom: 28px; }
+        .xp-seg {
+          appearance: none; background: none; border: 0; padding: 0; cursor: pointer;
+          text-align: left; min-width: 72px; color: inherit; font-family: inherit;
+          display: flex; flex-direction: column; gap: 12px;
+        }
+        .xp-bar {
+          position: relative; height: 12px; border-radius: 999px; overflow: hidden;
+          background: var(--theme-border);
+          transition: transform .3s ease, background .3s ease;
+        }
+        .xp-seg:hover .xp-bar { background: var(--theme-border-hover); }
+        .xp-bar-fill {
+          position: absolute; inset: 0; border-radius: inherit;
+          background: linear-gradient(90deg, #ff3b3b, #ff8c3b);
+        }
+        .xp-bar.live::after {
+          content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 28px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,.55));
+          animation: xp-sweep 2.2s ease-in-out infinite;
+        }
+        @keyframes xp-sweep { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+        .xp-seg-name { font-size: 13px; font-weight: 600; color: var(--theme-text-secondary); transition: color .25s ease; line-height: 1.3; }
+        .xp-seg-span { font-size: 12px; color: var(--theme-text-secondary); opacity: .75; }
+        .xp-seg[aria-selected="true"] .xp-seg-name { color: var(--theme-text-primary); }
+        .xp-seg:focus-visible, .xp-switch button:focus-visible, .xp-nav button:focus-visible {
+          outline: 2px solid #ff3b3b; outline-offset: 4px; border-radius: 8px;
         }
 
-        .experience-card.active {
-          border-color: #ff3b3b;
-          background: linear-gradient(135deg, rgba(255, 59, 59, 0.04), rgba(255, 140, 59, 0.02));
+        /* ---------- detail panel ---------- */
+        .xp-panel {
+          --mx: 50%; --my: 0px;
+          position: relative; overflow: hidden;
+          border: 1px solid var(--theme-border); border-radius: 28px;
+          background: var(--theme-bg-card);
+          padding: clamp(24px, 4vw, 48px);
+          min-height: 420px;
+        }
+        .xp-panel::before {
+          content: ''; position: absolute; inset: 0; pointer-events: none;
+          background: radial-gradient(420px circle at var(--mx) var(--my), rgba(255,59,59,.10), transparent 70%);
+        }
+        .xp-ghost {
+          position: absolute; right: clamp(16px, 3vw, 40px); top: clamp(4px, 1vw, 16px);
+          font-family: 'Bebas Neue', sans-serif;
+          font-size: clamp(5rem, 16vw, 12rem); line-height: 1; letter-spacing: 4px;
+          color: transparent; -webkit-text-stroke: 1px var(--theme-border-hover);
+          pointer-events: none; user-select: none; white-space: nowrap;
+        }
+        .xp-grid {
+          position: relative; display: grid; gap: clamp(28px, 4vw, 56px);
+          grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+        }
+        .xp-role { font-size: clamp(22px, 3vw, 30px); font-weight: 700; line-height: 1.15; }
+        .xp-company { font-size: 16px; font-weight: 500; color: #ff3b3b; margin-top: 6px; }
+        .xp-when { font-size: 13px; color: var(--theme-text-secondary); margin-top: 6px; }
+        .xp-desc { font-size: 14px; line-height: 1.7; opacity: .85; margin: 20px 0; max-width: 46ch; }
+        .xp-facts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+        .xp-fact { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--theme-text-secondary); }
+        .xp-fact svg { font-size: 16px; color: #ff3b3b; flex-shrink: 0; }
+        .xp-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .xp-chip {
+          font-size: 12px; padding: 5px 12px; border-radius: 999px;
+          border: 1px solid var(--theme-border); color: var(--theme-text-secondary);
+          transition: border-color .25s ease, color .25s ease;
+        }
+        .xp-chip:hover { border-color: #ff3b3b; color: var(--theme-text-primary); }
+
+        .xp-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+        .xp-item {
+          position: relative; padding: 16px 0 16px 28px;
+          border-top: 1px solid var(--theme-border);
+          font-size: 14px; line-height: 1.65; opacity: .85;
+          transition: opacity .25s ease, padding-left .25s ease;
+        }
+        .xp-item:last-child { border-bottom: 1px solid var(--theme-border); }
+        .xp-item::before {
+          content: ''; position: absolute; left: 0; top: 24px;
+          width: 8px; height: 8px; border-radius: 50%;
+          background: var(--theme-border-hover);
+          transition: background .25s ease, transform .25s ease, box-shadow .25s ease;
+        }
+        .xp-list:hover .xp-item { opacity: .45; }
+        .xp-list .xp-item:hover { opacity: 1; padding-left: 36px; }
+        .xp-item:hover::before { background: #ff3b3b; transform: scale(1.3); box-shadow: 0 0 0 4px rgba(255,59,59,.15); }
+
+        .xp-nav { position: relative; display: flex; align-items: center; justify-content: space-between; margin-top: 32px; gap: 16px; }
+        .xp-nav-count { font-size: 12px; color: var(--theme-text-secondary); }
+        .xp-nav-btns { display: flex; gap: 8px; }
+        .xp-nav button {
+          width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+          border: 1px solid var(--theme-border); background: transparent; color: var(--theme-text-primary);
+          display: inline-flex; align-items: center; justify-content: center;
+          transition: border-color .25s ease, background .25s ease, color .25s ease;
+        }
+        .xp-nav button:hover:not(:disabled) { border-color: #ff3b3b; background: #ff3b3b; color: #fff; }
+        .xp-nav button:disabled { opacity: .3; cursor: default; }
+
+        .xp-edu-grade {
+          display: inline-block; margin-top: 16px; font-size: 12px; padding: 5px 12px;
+          border-radius: 999px; border: 1px solid var(--theme-border); color: var(--theme-text-secondary);
         }
 
-        .experience-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 12px;
+        @media (max-width: 860px) {
+          .xp-grid { grid-template-columns: 1fr; }
+          .xp-ghost { top: auto; bottom: -8px; right: 12px; opacity: .6; }
         }
-
-        .experience-role {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 18px;
-          font-weight: 700;
-          color: var(--theme-text-primary);
+        @media (max-width: 560px) {
+          .xp-seg { min-width: 56px; }
+          .xp-seg-name { font-size: 12px; }
+          .xp-panel { border-radius: 20px; min-height: 0; }
         }
-
-        .experience-company {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 14px;
-          font-weight: 500;
-          color: #ff3b3b;
-          margin-top: 2px;
-        }
-
-        .experience-ceo {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 12px;
-          color: var(--theme-text-secondary);
-          margin-top: 4px;
-        }
-
-        .experience-duration {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 11px;
-          letter-spacing: 1px;
-          text-transform: uppercase;
-          color: var(--theme-text-secondary);
-          white-space: nowrap;
-          padding: 6px 12px;
-          border: 1px solid var(--theme-border);
-          border-radius: 999px;
-        }
-
-        .experience-meta-row {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: 10px;
-          margin-bottom: 14px;
-        }
-
-        .experience-location {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 12px;
-          letter-spacing: 0.5px;
-          color: var(--theme-text-secondary);
-        }
-
-        .experience-mode-chip {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 11px;
-          letter-spacing: 0.5px;
-          color: var(--theme-text-secondary);
-          border: 1px solid var(--theme-border);
-          border-radius: 999px;
-          padding: 4px 12px;
-        }
-
-        .experience-description {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 14px;
-          line-height: 1.7;
-          color: var(--theme-text-primary);
-          opacity: 0.85;
-          margin-bottom: 16px;
-        }
-
-        .experience-bullets {
-          margin: 0;
-          padding-left: 18px;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .experience-bullets li {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 14px;
-          line-height: 1.6;
-          color: var(--theme-text-primary);
-          opacity: 0.85;
-        }
-
-        .education-block {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          flex-wrap: wrap;
-          gap: 10px;
-        }
-
-        .education-school {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 18px;
-          font-weight: 700;
-          color: var(--theme-text-primary);
-          margin-bottom: 6px;
-        }
-
-        .education-degree {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 14px;
-          color: var(--theme-text-primary);
-          opacity: 0.85;
-          margin-bottom: 8px;
-        }
-
-        .education-grade {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 12px;
-          letter-spacing: 0.5px;
-          color: var(--theme-text-secondary);
-        }
-
-        @media (max-width: 768px) {
-          .experience-timeline {
-            padding-left: 24px;
-          }
-          .experience-dot-tracker {
-            left: -8px;
-          }
-          .experience-card {
-            padding: 20px;
-          }
-          .experience-role {
-            font-size: 16px;
-          }
-          .experience-description {
-            font-size: 13px;
-          }
+        @media (prefers-reduced-motion: reduce) {
+          .xp-bar.live::after { animation: none; }
+          .xp-item, .xp-item::before { transition: none; }
         }
       `}</style>
 
-      <Box className="experience-section">
-        <Box sx={{
-          maxWidth: "1440px",
-          width: "100%",
-          mx: "auto",
-          px: "clamp(20px, 5%, 96px)",
-          pt: { xs: "80px", sm: "100px", md: "120px" },
-          pb: { xs: "80px", sm: "100px", md: "120px" },
-        }}>
+      <Box className="xp-section">
+        <Box
+          sx={{
+            maxWidth: "1440px",
+            width: "100%",
+            mx: "auto",
+            px: "clamp(20px, 5%, 96px)",
+            pt: { xs: "80px", sm: "100px", md: "120px" },
+            pb: { xs: "80px", sm: "100px", md: "120px" },
+          }}
+        >
+          <div className="xp-tag">
+            <WorkOutlineIcon sx={{ fontSize: "14px" }} />
+            Experience
+          </div>
 
-          {/* Section Tag */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="experience-tag">
-              <WorkOutlineIcon sx={{ fontSize: "14px" }} />
-              Experience
-            </div>
-          </motion.div>
-
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-          >
-            <Typography sx={{
+          <Typography
+            sx={{
               fontFamily: "'Bebas Neue', sans-serif",
               fontSize: { xs: "clamp(2.5rem, 8vw, 4rem)", md: "clamp(3rem, 5vw, 5rem)" },
               fontWeight: 400,
               lineHeight: 0.95,
               letterSpacing: "3px",
               color: "var(--theme-text-primary)",
-              mb: { xs: 4, md: 6 },
-            }}>
-              Where I've Worked
-            </Typography>
-          </motion.div>
+              mb: { xs: 3, md: 4 },
+            }}
+          >
+            Where I've Worked
+          </Typography>
 
-          {/* Timeline */}
-          <Box className="experience-timeline" ref={timelineRef}>
-            {/* Single tracking dot — moves to the active card as you scroll */}
-            <motion.span
-              className="experience-dot-tracker"
-              animate={{ top: dotTop }}
-              transition={{ type: "spring", stiffness: 120, damping: 20 }}
-            />
+          <div className="xp-top">
+            <div className="xp-total">
+              <strong>{formatSpan(totalMonths)}</strong>
+              building for the web across {items.length} roles. Pick one to see what I did.
+            </div>
 
-            {experienceData.map((exp, idx) => (
-              <Box
-                key={exp.id || idx}
-                ref={(el) => (cardRefs.current[idx] = el)}
-                className={`experience-card ${idx === activeIndex ? "active" : ""}`}
-              >
-                <Box className="experience-header">
-                  <Box>
-                    <Typography className="experience-role">{exp.role}</Typography>
-                    <Typography className="experience-company">{exp.company}</Typography>
-                    {exp.ceo && (
-                      <Typography className="experience-ceo">CEO: {exp.ceo}</Typography>
-                    )}
-                  </Box>
-                  <span className="experience-duration">{exp.duration}</span>
-                </Box>
-
-                <Box className="experience-meta-row">
-                  {exp.location && (
-                    <Typography className="experience-location">{exp.location}</Typography>
+            <div className="xp-switch" role="tablist" aria-label="Section">
+              {[
+                { id: "work", label: "Work", icon: <WorkOutlineIcon sx={{ fontSize: 16 }} /> },
+                { id: "edu", label: "Education", icon: <SchoolOutlinedIcon sx={{ fontSize: 16 }} /> },
+              ].map((t) => (
+                <button
+                  key={t.id}
+                  role="tab"
+                  aria-selected={tab === t.id}
+                  onClick={() => setTab(t.id)}
+                >
+                  {tab === t.id && (
+                    <motion.span
+                      layoutId="xp-pill"
+                      className="xp-pill"
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    />
                   )}
-                  {exp.workMode && (
-                    <span className="experience-mode-chip">{exp.workMode}</span>
-                  )}
-                </Box>
+                  <span className="xp-label">
+                    {t.icon}
+                    {t.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
 
-                <Typography className="experience-description">
-                  {exp.description}
-                </Typography>
-
-                {exp.bullets && exp.bullets.length > 0 && (
-                  <ul className="experience-bullets">
-                    {exp.bullets.map((bullet, i) => (
-                      <li key={i}>{bullet}</li>
-                    ))}
-                  </ul>
-                )}
-              </Box>
-            ))}
-          </Box>
-
-          {/* Education */}
-          {educationData && educationData.length > 0 && (
-            <Box sx={{ mt: { xs: 6, md: 8 } }}>
+          <AnimatePresence mode="wait">
+            {tab === "work" ? (
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                key="work"
+                initial={{ opacity: 0, y: reduce ? 0 : 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: reduce ? 0 : -8 }}
+                transition={{ duration: 0.3 }}
               >
-                <div className="experience-tag">
-                  <SchoolOutlinedIcon sx={{ fontSize: "14px" }} />
-                  Education
+                {/* Career strip: bar width = time spent. Oldest → newest. */}
+                <div
+                  className="xp-strip"
+                  role="tablist"
+                  aria-label="Roles, oldest to newest"
+                  onKeyDown={(e) => {
+                    if (e.key === "ArrowRight") { e.preventDefault(); step(1); }
+                    if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+                  }}
+                >
+                  {items.map((exp, i) => {
+                    const on = i === active;
+                    return (
+                      <button
+                        key={exp.id}
+                        ref={(el) => (tabRefs.current[i] = el)}
+                        className="xp-seg"
+                        role="tab"
+                        aria-selected={on}
+                        tabIndex={on ? 0 : -1}
+                        onClick={() => select(i)}
+                        style={{ flex: `${exp.months} 1 0` }}
+                      >
+                        <span className={`xp-bar ${!exp.end ? "live" : ""}`}>
+                          {on && (
+                            <motion.span
+                              layoutId="xp-fill"
+                              className="xp-bar-fill"
+                              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            />
+                          )}
+                        </span>
+                        <span>
+                          <span className="xp-seg-name">{exp.label}</span>
+                          <br />
+                          <span className="xp-seg-span">{formatSpan(exp.months)}</span>
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="xp-panel" ref={panelRef} onMouseMove={onMove} role="tabpanel">
+                  <AnimatePresence mode="wait" custom={dirRef.current} initial={false}>
+                    <motion.div
+                      key={current.id}
+                      custom={dirRef.current}
+                      variants={slide}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <div className="xp-ghost" aria-hidden="true">
+                        {formatSpan(current.months)}
+                      </div>
+
+                      <div className="xp-grid">
+                        <div>
+                          <div className="xp-role">{current.role}</div>
+                          <div className="xp-company">{current.company}</div>
+                          <div className="xp-when">
+                            {current.type} · {current.duration}
+                          </div>
+
+                          <p className="xp-desc">{current.description}</p>
+
+                          <div className="xp-facts">
+                            <div className="xp-fact">
+                              <PlaceOutlinedIcon />
+                              {current.location}
+                            </div>
+                            <div className="xp-fact">
+                              <LaptopMacOutlinedIcon />
+                              {current.workMode}
+                            </div>
+                            {current.ceo && (
+                              <div className="xp-fact">
+                                <PersonOutlineIcon />
+                                CEO: {current.ceo}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="xp-chips">
+                            {current.tags.map((t) => (
+                              <span className="xp-chip" key={t}>{t}</span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <ul className="xp-list">
+                          {current.bullets.map((b, i) => (
+                            <motion.li
+                              key={b}
+                              className="xp-item"
+                              initial={{ opacity: 0, y: reduce ? 0 : 12 }}
+                              animate={{ opacity: 0.85, y: 0 }}
+                              transition={{ delay: reduce ? 0 : 0.12 + i * 0.07, duration: 0.4 }}
+                            >
+                              {b}
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  <div className="xp-nav">
+                    <span className="xp-nav-count">
+                      Role {items.length - active} of {items.length} · newest first
+                    </span>
+                    <div className="xp-nav-btns">
+                      <button aria-label="Earlier role" disabled={active === 0} onClick={() => step(-1)}>
+                        <ArrowBackIcon sx={{ fontSize: 18 }} />
+                      </button>
+                      <button aria-label="Later role" disabled={active === items.length - 1} onClick={() => step(1)}>
+                        <ArrowForwardIcon sx={{ fontSize: 18 }} />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
-
-              {educationData.map((edu, idx) => (
-                <motion.div
-                  key={edu.id || idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                >
-                  <Box
-                    className="experience-card"
-                    sx={{ marginBottom: idx === educationData.length - 1 ? 0 : "16px" }}
+            ) : (
+              <motion.div
+                key="edu"
+                initial={{ opacity: 0, y: reduce ? 0 : 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: reduce ? 0 : -8 }}
+                transition={{ duration: 0.3 }}
+              >
+                {educationData.map((edu) => (
+                  <div
+                    key={edu.id}
+                    className="xp-panel"
+                    ref={panelRef}
+                    onMouseMove={onMove}
+                    style={{ minHeight: 260 }}
                   >
-                    <Box className="education-block">
-                      <Box>
-                        <Typography className="education-school">{edu.school}</Typography>
-                        <Typography className="education-degree">{edu.degree}</Typography>
-                        {edu.grade && (
-                          <Typography className="education-grade">{edu.grade}</Typography>
-                        )}
-                      </Box>
-                      <span className="experience-duration">{edu.duration}</span>
-                    </Box>
-                  </Box>
-                </motion.div>
-              ))}
-            </Box>
-          )}
-
+                    <div style={{ position: "relative", maxWidth: 560 }}>
+                      <div className="xp-role">{edu.school}</div>
+                      <p className="xp-desc">{edu.degree}</p>
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </Box>
       </Box>
     </>
