@@ -41,6 +41,9 @@ function About() {
         ]}
       />
 
+      {/* Top spacer — clears the fixed navbar + breadcrumb strip */}
+      <div style={{ height: "100px", width: "100%" }} />
+
       <AboutMeHero />
       <AboutMeFAQ />
       <Resume />

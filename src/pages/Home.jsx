@@ -40,6 +40,9 @@ function Home() {
         ]}
       />
 
+      {/* Top spacer — clears the fixed navbar + breadcrumb strip */}
+      <div style={{ height: "100px", width: "100%" }} />
+
       <HeroSection />
       <AboutSection />
       <RecentProjects />
